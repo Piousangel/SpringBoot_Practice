@@ -12,7 +12,7 @@ public class MemDAO {
 	@Autowired
 	private SqlSessionTemplate sst;
 	
-	public MemDAO(){
+	public MemDAO(){  //생성자
 		
 		System.out.println("MemDAO!");
 	}
