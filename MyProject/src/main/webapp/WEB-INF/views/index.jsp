@@ -20,10 +20,10 @@
 		<!-- 상단 영역 -->
 		<div id="header">
 			<div class="txt_right">
-			<c:if test="${!login_chk }">
+			<c:if test="${sessionScope.mvo == null }">
 				<span><a href="login">로그인</a></span>
 			</c:if>
-			<c:if test="${login_chk }">
+			<c:if test="${sessionScope.mvo != null }">
 				<span><a href="javascript:logout()">로그아웃</a></span>
 			</c:if>
 			</div>
@@ -33,7 +33,7 @@
 				<li><a href=""><span class="menu m02">위드유</span></a></li>
 				<li><a href=""><span class="menu m03">스마트 전통시장</span></a></li>
 				<li><a href=""><span class="menu m04">BRAVO!</span></a></li>
-				<li><a href=""><span class="menu m05">SKT와 사회공헌</span></a></li>
+				<li><a href="bbs"><span class="menu m05">SKT와 사회공헌</span></a></li>
 				<li class="end"></li>
 			</ul>
 		</div>
@@ -177,14 +177,40 @@
 		<input type="hidden" name="type"/>
 	</form>
 	
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	
 	<script>
 		function logout(){
 			//현재 문서에서 이름이 frm인 폼을 알아내어 그 안에 있는 요소들 중
 			// 이름이 type인 요소의 값(value)을 "logout"으로 지정한다.
-			document.frm.type.value = "logout";
+			//document.frm.type.value = "logout";
 			
-			document.frm.submit();
+			//document.frm.submit();
+			
+			$.ajax({
+				url: "logout",
+				dataType: "json",
+			}).done(function(data){
+				//요청에 성공했을 때만 수행
+				//alert(data.res); // data.res의 값이 1이면 정상 로그인이 된 경우!
+									// 0이면 아이디 및 비밀번호가 틀린경우!
+				
+				console.log("data.res:"+data.res);
+				
+				if(data.res == "0"){
+					alert("정상적으로 로그아웃이 처리되었습니다.");
+					location.href = "/";	
+				}
+				
+			});
 		}
 	</script>
 </body>
 </html>
+
+
+
+
+
+
+    

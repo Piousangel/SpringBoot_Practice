@@ -8,23 +8,24 @@ import org.springframework.web.servlet.ModelAndView;
 import mybatis.vo.MemVO;
 
 @Controller
-public class loginController {
+public class IndexController {
 
-	@RequestMapping("/login")        //  "/" GET방식으로 전달됩니다.
+	@RequestMapping("/")
+	public String index() {
+		return "index"; //views/index.jsp를 의미
+	}
+/*	
+	@RequestMapping("/login")
 	public String login() {
-		
 		return "login";
 	}
 	
-	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ModelAndView login(MemVO vo) {
-		
+	public ModelAndView login(MemVO vo) { 
 		ModelAndView mv = new ModelAndView();
-		//mv.addObject("", vo.getM_id());
-		//mv.addObject("", vo.getM_pw());
 		
-		mv.setViewName("index");
+		System.out.println(vo.getM_id()+"/"+vo.getM_pw());
 		return mv;
 	}
+*/	
 }
