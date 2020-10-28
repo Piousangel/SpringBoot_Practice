@@ -76,21 +76,11 @@ public class BbsDAO {
 	}
 	
 	//수정 기능
-	public boolean editBbs(String b_idx, String subject, String content,
-			String fname, String ip) {
+	public boolean editBbs(BbsVO vo) {
 		boolean value = false;
 		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("b_idx", b_idx);
-		map.put("subject", subject);
-		map.put("content", content);
-		//파일첨부가 되었을 때만 파일명을 DB에 저장! 만약? 첨부된 파일이 없다면
-		// 기존 파일을 유지하자!
-		if(fname != null && fname.trim().length() > 0) {
-			map.put("fname", fname);
-		}
-		
-		int cnt = sst.update("bbs.edit", map);
+	
+		int cnt = sst.update("bbs.edit", vo);
 		if(cnt > 0) {
 		
 			value = true;

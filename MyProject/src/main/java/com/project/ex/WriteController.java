@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import mybatis.dao.BbsDAO;
 import mybatis.vo.BbsVO;
 import mybatis.vo.MemVO;
+import spring.util.FileUploadUtil;
 
 @Controller
 public class WriteController {
@@ -95,7 +96,8 @@ public class WriteController {
 			// 파일명 얻기
 			String f_name = mf.getOriginalFilename();
 			
-			// 동일한 파일명이 있다면 변경해야 한다.(내일 한단다)
+			// 동일한 파일명이 있다면 변경해야 한다.
+			f_name = FileUploadUtil.checkSameFileName(f_name, path);
 			
 			//업로드
 			mf.transferTo(new File(path, f_name));

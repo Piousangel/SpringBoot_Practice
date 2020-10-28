@@ -1,17 +1,24 @@
 package com.project.ex;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import mybatis.dao.BbsDAO;
 import mybatis.vo.BbsVO;
+import mybatis.vo.CommVO;
+import mybatis.vo.MemVO;
+import spring.util.FileUploadUtil;
 
 @Controller
 public class ViewController {
@@ -21,6 +28,15 @@ public class ViewController {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private HttpServletRequest request;
+	
+	@Autowired
+	private ServletContext application;
+	
+	//첨부파일 저장위치!
+	private String uploadPath = "/resources/upload";
 	
 	@RequestMapping("view")
 	public ModelAndView view(String cPage, String b_idx) {
@@ -63,9 +79,63 @@ public class ViewController {
 		mv.addObject("vo", vo);
 		//mv.addObject("cPage", cPage); 써도 되지만 forward방식으로 전송했기 때문에 view.jsp에서 ${param.cPage}로 인자를 받을 수 있다.
 		
+		session.setAttribute("bvo", vo); //수정을 선택했을 때 edit.jsp에서 표현하기 위함
+		
 		mv.setViewName("bbs/view");
 		return mv;
 	}
+	
+	@RequestMapping("/edit")
+	public ModelAndView edit(BbsVO vo) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		String c_type = request.getContentType();
+		
+		if(c_type != null && c_type.startsWith("multipart")) {
+			//DB수정작업을 해야합니다.
+		
+		MultipartFile mf = vo.getFile();
+		
+		//정상적인 접근에서 파일이 첨부되지 않았다면 mf가 null은 아니지만 용량이 0일 것입니다. 
+		//따라서 파일첨부에 대한 확인은 size로 비교합니다.
+		
+		
+		if(mf != null && mf.getSize() > 0 && mf.getOriginalFilename().trim().length() > 0) {
+			
+			//절대경로 설정하기
+			String path = application.getRealPath(uploadPath);
+			
+			//파일명 얻기
+			String f_name = mf.getOriginalFilename();
+			
+			//동일한 파일명이 있으면 변경
+			f_name = FileUploadUtil.checkSameFileName(f_name, path);
+			
+			//업로드
+			mf.transferTo(new File(path, f_name));
+			
+			//DB작업 => vo객체 저장!
+			vo.setFile_name(f_name);
+		}
+		
+			vo.setIp(request.getRemoteAddr()); //ip저장도 해야
+		
+			BbsVO bvo = (BbsVO) session.getAttribute("bvo");
+			
+			vo.setB_idx(bvo.getB_idx());
+			vo.setcPage(bvo.getcPage());
+		
+			//b_dao.add(vo); 어떤걸 업데이트로 바꾸라고 하셨는데...
+			
+			mv.setViewName("redirect:/view?b_idx="+vo.getB_idx()+"&cPage=vo.getcPage"); //+vo.getCPage() , b_idx는 파라미터로(조건판단) 무조건 받아야합니다. 
+		}
+		else		
+		mv.setViewName("bbs/edit");
+		
+		return mv;
+	}
+	
+	
 	
 }
 

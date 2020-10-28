@@ -51,12 +51,12 @@
   </select>
   
   <!-- 원글 수정 -->
-  <update id="edit" parameterType="java.util.Map">
+  <update id="edit" parameterType="mybatis.vo.BbsVO">
   	UPDATE bbs
   	SET
   		subject = #{subject},
   		content = #{content}
-  		<if test="fname != null">
+  		<if test="file_name != null">
   			,file_name = #{fname}
   		</if>
   	WHERE b_idx = #{b_idx}

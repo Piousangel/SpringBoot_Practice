@@ -17,8 +17,17 @@ public class BbsVO {
 					hit,
 					status,
 					bname;
+	/*cPage;
+	
+	public String getcPage() {                           //새로만든 cPage vo
+		return cPage;
+	}
+	public void setcPage(String cPage) {
+		this.cPage = cPage;
+	}  */
 	
 	private MultipartFile file;
+	private int cPage;
 	
 	private List<CommVO> c_list;// 원글에 포함되는 댓글들...
 	public String getB_idx() {
@@ -93,4 +102,12 @@ public class BbsVO {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	public int getcPage() {
+		return cPage;
+	}
+	public void setcPage(int cPage) {
+		this.cPage = cPage;
+	}
+	
+	
 }
