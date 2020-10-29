@@ -79,7 +79,7 @@ public class ViewController {
 		mv.addObject("vo", vo);
 		//mv.addObject("cPage", cPage); 써도 되지만 forward방식으로 전송했기 때문에 view.jsp에서 ${param.cPage}로 인자를 받을 수 있다.
 		
-		session.setAttribute("bvo", vo); //수정을 선택했을 때 edit.jsp에서 표현하기 위함
+		session.setAttribute("bvo", vo); //수정을 선택했을 때 edit.jsp에서 표현하기 위함 DB를 다시 안가도 되는 장점이 있다.
 		
 		mv.setViewName("bbs/view");
 		return mv;
@@ -120,14 +120,14 @@ public class ViewController {
 		
 			vo.setIp(request.getRemoteAddr()); //ip저장도 해야
 		
-			BbsVO bvo = (BbsVO) session.getAttribute("bvo");
+			/*BbsVO bvo = (BbsVO) session.getAttribute("bvo");
 			
 			vo.setB_idx(bvo.getB_idx());
-			vo.setcPage(bvo.getcPage());
+			vo.setcPage(bvo.getcPage());*/
 		
-			//b_dao.add(vo); 어떤걸 업데이트로 바꾸라고 하셨는데...
+			b_dao.editBbs(vo);
 			
-			mv.setViewName("redirect:/view?b_idx="+vo.getB_idx()+"&cPage=vo.getcPage"); //+vo.getCPage() , b_idx는 파라미터로(조건판단) 무조건 받아야합니다. 
+			mv.setViewName("redirect:/view?b_idx="+vo.getB_idx()+"&cPage="+vo.getcPage()); //+vo.getCPage() , b_idx는 파라미터로(조건판단) 무조건 받아야합니다. 
 		}
 		else		
 		mv.setViewName("bbs/edit");
