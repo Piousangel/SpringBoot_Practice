@@ -1,5 +1,6 @@
 package com.project.ex;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ public class IndexController {
 	public String index() {
 		return "index"; //views/index.jsp를 의미
 	}
+	
 /*	
 	@RequestMapping("/login")
 	public String login() {
