@@ -21,7 +21,7 @@ public class MemberController {
 	private MemDAO m_dao;
 	
 	@Autowired
-	private HttpSession session;//자동으로 저장된다.	
+	private HttpSession session;//자동으로 저장된다.
 	
 	@RequestMapping("/login") //GET방식 호출 시 
 	public String login() {
