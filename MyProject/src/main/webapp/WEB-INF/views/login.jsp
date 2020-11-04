@@ -97,6 +97,11 @@ href="css/login.css"/>
 			</div>
 		<!-- 기관단체회원 끝-->
 		</div>
+		<div>
+			<a href="https://kauth.kakao.com/oauth/authorize?client_id=597475887fb384b2f2c76262596fc212&redirect_uri=http://localhost:8080/kakao_login&response_type=code">
+			<img src="img/kakao_login_medium_narrow.png">
+			</a>
+		</div>
 	</div>
 	<!-- 콘텐츠 영역 끝-->
 	<!-- 하단영역 -->
