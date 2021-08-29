@@ -12,7 +12,7 @@ return store.values.stream()
 assertThat().isEqualTo();
 assertThrows(IllegalStateException.class, () -> memberService.join());
 
-@AfterEach , clearStore();
+@AfterEach , @BeforeEach clearStore();
 
 //중복처리
 public Long join(Member member){
